@@ -1,0 +1,65 @@
+{
+  "rows": 100000,
+  "columns": [
+    "Index",
+    "Name",
+    "Description",
+    "Brand",
+    "Category",
+    "Price",
+    "Currency",
+    "Stock",
+    "EAN",
+    "Color",
+    "Size",
+    "Availability",
+    "Internal ID"
+  ],
+  "numeric_columns": [
+    "Index",
+    "Price",
+    "Stock",
+    "EAN",
+    "Internal ID"
+  ],
+  "categorical_columns": [
+    "Name",
+    "Description",
+    "Brand",
+    "Category",
+    "Currency",
+    "Color",
+    "Size",
+    "Availability"
+  ],
+  "missing_values": {
+    "Index": 0.0,
+    "Name": 0.0,
+    "Description": 0.0,
+    "Brand": 0.0,
+    "Category": 0.0,
+    "Price": 0.0,
+    "Currency": 0.0,
+    "Stock": 0.0,
+    "EAN": 0.0,
+    "Color": 0.0,
+    "Size": 0.0,
+    "Availability": 0.0,
+    "Internal ID": 0.0
+  },
+  "column_types": {
+    "Index": "int64",
+    "Name": "str",
+    "Description": "str",
+    "Brand": "str",
+    "Category": "str",
+    "Price": "int64",
+    "Currency": "str",
+    "Stock": "int64",
+    "EAN": "int64",
+    "Color": "str",
+    "Size": "str",
+    "Availability": "str",
+    "Internal ID": "int64"
+  }
+}

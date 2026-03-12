@@ -1,0 +1,61 @@
+{
+  "rows": 100000,
+  "columns": [
+    "Index",
+    "Customer Id",
+    "First Name",
+    "Last Name",
+    "Company",
+    "City",
+    "Country",
+    "Phone 1",
+    "Phone 2",
+    "Email",
+    "Subscription Date",
+    "Website"
+  ],
+  "numeric_columns": [
+    "Index"
+  ],
+  "categorical_columns": [
+    "Customer Id",
+    "First Name",
+    "Last Name",
+    "Company",
+    "City",
+    "Country",
+    "Phone 1",
+    "Phone 2",
+    "Email",
+    "Subscription Date",
+    "Website"
+  ],
+  "missing_values": {
+    "Index": 0.0,
+    "Customer Id": 0.0,
+    "First Name": 0.0,
+    "Last Name": 0.0,
+    "Company": 0.0,
+    "City": 0.0,
+    "Country": 0.0,
+    "Phone 1": 0.0,
+    "Phone 2": 0.0,
+    "Email": 0.0,
+    "Subscription Date": 0.0,
+    "Website": 0.0
+  },
+  "column_types": {
+    "Index": "int64",
+    "Customer Id": "str",
+    "First Name": "str",
+    "Last Name": "str",
+    "Company": "str",
+    "City": "str",
+    "Country": "str",
+    "Phone 1": "str",
+    "Phone 2": "str",
+    "Email": "str",
+    "Subscription Date": "str",
+    "Website": "str"
+  }
+}
