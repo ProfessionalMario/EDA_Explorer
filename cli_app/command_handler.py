@@ -6,12 +6,12 @@ from data.registry import DatasetRegistry
 from utils.logger import logger
 from core.query_router import QueryRouter
 from agents.metadata_agent import MetadataAgent
-
+from agents.dataframe_agent import DataFrameAgent
 router = QueryRouter()
 console = Console()
 registry = DatasetRegistry()
 metadata_agent = MetadataAgent(registry)
-
+dataframe_agent = DataFrameAgent(registry)
 
 def handle_command(command):
 
@@ -200,8 +200,14 @@ def handle_command(command):
         agent = router.route(command)
 
         if agent == "metadata_agent":
+
             result = metadata_agent.handle(command)
-            
+            console.print(result)
+            return ""
+
+        if agent == "dataframe_agent":
+
+            result = dataframe_agent.handle(command)
             console.print(result)
             return ""
 

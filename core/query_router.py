@@ -27,28 +27,33 @@ class QueryRouter:
             "count"
         ]
 
-    def route(self, query: str):
+    def route(self, query):
 
-        q = query.lower()
+            q = query.lower()
 
-        try:
+            # Metadata queries
+            metadata_keywords = [
+                "column",
+                "numeric",
+                "categorical",
+                "missing"
+            ]
 
-            for word in self.metadata_keywords:
-                if word in q:
-                    return "metadata_agent"
+            # Dataframe analysis queries
+            dataframe_keywords = [
+                "average",
+                "mean",
+                "max",
+                "min",
+                "top",
+                "count",
+                "rows"
+            ]
 
-            for word in self.visual_keywords:
-                if word in q:
-                    return "visualization_agent"
+            if any(word in q for word in metadata_keywords):
+                logger.info("Routing → metadata_agent")
+                return "metadata_agent"
 
-            for word in self.stats_keywords:
-                if word in q:
-                    return "dataframe_agent"
-
-            return "rag_agent"
-
-        except Exception as e:
-
-            logger.error(f"Routing failed | {e}")
-
-            return "fallback_agent"
+            if any(word in q for word in dataframe_keywords):
+                logger.info("Routing → dataframe_agent")
+                return "dataframe_agent"
