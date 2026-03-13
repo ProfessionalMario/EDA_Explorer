@@ -16,7 +16,9 @@ class QueryRouter:
             "plot",
             "graph",
             "scatter",
-            "hist"
+            "hist", 
+            "bar",
+            "chart"
         ]
 
         self.stats_keywords = [
@@ -58,7 +60,7 @@ class QueryRouter:
                 logger.info("Routing → dataframe_agent")
                 return "dataframe_agent"
             
-            if any(word in q for word in ["hist", "histogram", "bar", "plot"]):
+            if any(word in q for word in visual_keywords:
                 return "visualization_agent"
             
             return "unknown command"
