@@ -57,3 +57,8 @@ class QueryRouter:
             if any(word in q for word in dataframe_keywords):
                 logger.info("Routing → dataframe_agent")
                 return "dataframe_agent"
+            
+            if any(word in q for word in ["hist", "histogram", "bar", "plot"]):
+                return "visualization_agent"
+            
+            return "unknown command"

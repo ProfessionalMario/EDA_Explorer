@@ -7,6 +7,7 @@ from utils.logger import logger
 from core.query_router import QueryRouter
 from agents.metadata_agent import MetadataAgent
 from agents.dataframe_agent import DataFrameAgent
+from agents import visualization_agent
 router = QueryRouter()
 console = Console()
 registry = DatasetRegistry()
@@ -126,17 +127,30 @@ def handle_command(command):
             table.add_column("Description")
 
             table.add_row("load <file_path>", "Load dataset")
-            table.add_row("list", "List datasets")
+            table.add_row("list", "List loaded datasets")
+
             table.add_row("info <dataset>", "Show dataset metadata")
             table.add_row("describe <dataset>", "Statistical summary")
             table.add_row("columns <dataset>", "Show column names")
             table.add_row("shape <dataset>", "Show dataset size")
+
             table.add_row("head <dataset> [n]", "Preview first rows")
+
+            table.add_row("NL: show top 10 rows in products", "DataFrameAgent row preview")
+            table.add_row("NL: how many rows in customers", "Row count")
+
+            table.add_row("NL: average price in products", "Column mean")
+            table.add_row("NL: max price in products", "Column max")
+            table.add_row("NL: min price in products", "Column min")
+
+            table.add_row("NL: histogram price in products", "Histogram (numeric column)")
+            table.add_row("NL: bar chart category in products", "Bar chart (categorical column)")
+
             table.add_row("exit", "Quit program")
 
             console.print(table)
 
-            return ""
+            return
         
         elif action == "columns":
             if len(parts) < 2:
@@ -196,7 +210,7 @@ def handle_command(command):
 
             return ""
         
-            # AGENT ROUTER LAST
+        # AGENT ROUTER LAST
         agent = router.route(command)
 
         if agent == "metadata_agent":
@@ -205,9 +219,15 @@ def handle_command(command):
             console.print(result)
             return ""
 
-        if agent == "dataframe_agent":
+        elif agent == "dataframe_agent":
 
             result = dataframe_agent.handle(command)
+            console.print(result)
+            return ""
+
+        elif agent == "visualization_agent":
+
+            result = visualization_agent.handle(command)
             console.print(result)
             return ""
 
