@@ -1,0 +1,93 @@
+from utils.logger import logger
+
+
+class QueryRouter:
+
+    def __init__(self):
+
+        self.metadata_keywords = [
+            "columns",
+            "shape",
+            "info",
+            "describe"
+        ]
+
+        self.visual_keywords = [
+            "plot",
+            "graph",
+            "scatter",
+            "hist", 
+            "bar",
+            "chart",
+            "distribution"
+        ]
+
+        self.stats_keywords = [
+            "average",
+            "mean",
+            "median",
+            "sum",
+            "count"
+        ]
+
+    def route(self, query):
+
+            q = query.lower()
+
+            # Metadata queries
+            metadata_keywords = [
+                "column",
+                "numeric",
+                "categorical",
+                "missing"
+            ]
+
+            # Dataframe analysis queries
+            dataframe_keywords = [
+                "average",
+                "mean",
+                "max",
+                "min",
+                "top",
+                "count",
+                "rows"
+            ]
+
+            if any(word in q for word in metadata_keywords):
+                logger.info("Routing → metadata_agent")
+                return "metadata_agent"
+
+            if any(word in q for word in dataframe_keywords):
+                logger.info("Routing → dataframe_agent")
+                return "dataframe_agent"
+            
+            visual_keywords = [
+                "plot",
+                "graph",
+                "scatter",
+                "hist",
+                "bar",
+                "chart",
+                "histogram",
+                "distribution"
+            ]
+
+            if any(word in q for word in visual_keywords):
+                logger.info("Routing → visualization_agent")
+                return "visualization_agent"
+
+            transformer_keywords = [
+                "normalize",
+                "scale",
+                "encode",
+                "drop",
+                "fill",
+                "impute",
+                "rename",
+            ]
+
+            if any(word in q for word in transformer_keywords):
+                logger.info("Routing → transformer_agent")
+                return "transformer_agent"
+
+            return "unknown command"
