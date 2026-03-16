@@ -27,3 +27,4 @@ six==1.17.0
 typer==0.24.1
 tzdata==2025.3
 openai
+requests

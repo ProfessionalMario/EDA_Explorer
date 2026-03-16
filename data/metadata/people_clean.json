@@ -1,0 +1,51 @@
+{
+  "rows": 10000,
+  "columns": [
+    "Index",
+    "User Id",
+    "First Name",
+    "Last Name",
+    "Email",
+    "Phone",
+    "Date of birth",
+    "Job Title",
+    "Sex_Female",
+    "Sex_Male"
+  ],
+  "numeric_columns": [
+    "Index"
+  ],
+  "categorical_columns": [
+    "User Id",
+    "First Name",
+    "Last Name",
+    "Email",
+    "Phone",
+    "Date of birth",
+    "Job Title"
+  ],
+  "missing_values": {
+    "Index": 0.0,
+    "User Id": 0.0,
+    "First Name": 0.0,
+    "Last Name": 0.0,
+    "Email": 0.0,
+    "Phone": 0.0,
+    "Date of birth": 0.0,
+    "Job Title": 0.0,
+    "Sex_Female": 0.0,
+    "Sex_Male": 0.0
+  },
+  "column_types": {
+    "Index": "int64",
+    "User Id": "str",
+    "First Name": "str",
+    "Last Name": "str",
+    "Email": "str",
+    "Phone": "str",
+    "Date of birth": "str",
+    "Job Title": "str",
+    "Sex_Female": "bool",
+    "Sex_Male": "bool"
+  }
+}

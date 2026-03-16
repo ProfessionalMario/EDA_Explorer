@@ -2,92 +2,92 @@ from utils.logger import logger
 
 
 class QueryRouter:
+    """
+    Rule-based fallback router.
+    Order matters: transformer action words are checked first so that queries
+    like 'drop column X' or 'impute missing' don't get swallowed by the
+    metadata keyword list.
+    """
 
-    def __init__(self):
+    # Transformer keywords take top priority — they are explicit action verbs.
+    TRANSFORMER_KEYWORDS = [
+        "normalize",
+        "standardize",
+        "zscore",
+        "z-score",
+        "scale",
+        "encode",
+        "onehot",
+        "one-hot",
+        "one hot",
+        "dummies",
+        "drop",
+        "fill",
+        "impute",
+        "rename",
+        "strip",
+        "duplicate",
+        "constant",
+        "whitespace",
+        "dropna",
+    ]
 
-        self.metadata_keywords = [
-            "columns",
-            "shape",
-            "info",
-            "describe"
-        ]
+    # Metadata keywords — structural / schema queries.
+    METADATA_KEYWORDS = [
+        "column",
+        "numeric",
+        "categorical",
+        "missing",
+        "schema",
+        "fields",
+        "field",
+    ]
 
-        self.visual_keywords = [
-            "plot",
-            "graph",
-            "scatter",
-            "hist", 
-            "bar",
-            "chart",
-            "distribution"
-        ]
+    # DataFrame / statistics keywords.
+    DATAFRAME_KEYWORDS = [
+        "average",
+        "mean",
+        "median",
+        "max",
+        "min",
+        "top",
+        "count",
+        "rows",
+        "sum",
+        "highest",
+        "lowest",
+    ]
 
-        self.stats_keywords = [
-            "average",
-            "mean",
-            "median",
-            "sum",
-            "count"
-        ]
+    # Visualisation keywords.
+    VISUAL_KEYWORDS = [
+        "plot",
+        "graph",
+        "scatter",
+        "hist",
+        "bar",
+        "chart",
+        "histogram",
+        "distribution",
+    ]
 
     def route(self, query):
+        q = query.lower()
 
-            q = query.lower()
+        if any(word in q for word in self.TRANSFORMER_KEYWORDS):
+            logger.info("Routing → transformer_agent")
+            return "transformer_agent"
 
-            # Metadata queries
-            metadata_keywords = [
-                "column",
-                "numeric",
-                "categorical",
-                "missing"
-            ]
+        if any(word in q for word in self.METADATA_KEYWORDS):
+            logger.info("Routing → metadata_agent")
+            return "metadata_agent"
 
-            # Dataframe analysis queries
-            dataframe_keywords = [
-                "average",
-                "mean",
-                "max",
-                "min",
-                "top",
-                "count",
-                "rows"
-            ]
+        if any(word in q for word in self.DATAFRAME_KEYWORDS):
+            logger.info("Routing → dataframe_agent")
+            return "dataframe_agent"
 
-            if any(word in q for word in metadata_keywords):
-                logger.info("Routing → metadata_agent")
-                return "metadata_agent"
+        if any(word in q for word in self.VISUAL_KEYWORDS):
+            logger.info("Routing → visualization_agent")
+            return "visualization_agent"
 
-            if any(word in q for word in dataframe_keywords):
-                logger.info("Routing → dataframe_agent")
-                return "dataframe_agent"
-            
-            visual_keywords = [
-                "plot",
-                "graph",
-                "scatter",
-                "hist",
-                "bar",
-                "chart",
-                "histogram",
-                "distribution"
-            ]
-
-            if any(word in q for word in visual_keywords):
-                logger.info("Routing → visualization_agent")
-                return "visualization_agent"
-
-            transformer_keywords = [
-                "normalize",
-                "scale",
-                "encode",
-                "drop",
-                "fill",
-                "impute",
-                "rename",
-            ]
-
-            if any(word in q for word in transformer_keywords):
-                logger.info("Routing → transformer_agent")
-                return "transformer_agent"
-
-            return "unknown command"
+        logger.warning(f"No route matched for query: {query}")
+        return "unknown command"

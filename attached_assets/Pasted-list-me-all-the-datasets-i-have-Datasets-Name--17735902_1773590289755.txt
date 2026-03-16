@@ -1,0 +1,51 @@
+list me all the datasets i have 
+    Datasets     
+┏━━━━━━━━━━━━━━━┓
+┃ Name          ┃
+┡━━━━━━━━━━━━━━━┩
+│ leads         │
+│ organizations │
+│ people        │
+└───────────────┘
+> tell me the no of datasets i have 
+Unknown command. Type 'help' to see available commands.
+> how many datasets do i have
+Unknown command. Type 'help' to see available commands.
+> clean 
+Unknown command. Type 'help' to see available commands.
+> how many columsn are present in leads dataset 
+Unknown command. Type 'help' to see available commands.
+> columns in leads
+Error: Dataset not found
+> visualize people dataset with historgram 
+Column not found in dataset.
+> people info 
+Unknown command. Type 'help' to see available commands.
+> info people
+                                      Dataset Info: people                                      
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Property            ┃ Value                                                                  ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Rows                │ 10000                                                                  │
+│ Columns             │ 9                                                                      │
+│ Numeric Columns     │ Index                                                                  │
+│ Categorical Columns │ User Id, First Name, Last Name, Sex, Email, Phone, Date of birth, Job  │
+│                     │ Title                                                                  │
+│ Column Types        │ Index:int64, User Id:str, First Name:str, Last Name:str, Sex:str,      │
+│                     │ Email:str, Phone:str, Date of birth:str, Job Title:str                 │
+└─────────────────────┴────────────────────────────────────────────────────────────────────────┘
+> describe people
+          Index
+count  10000.00
+mean    5000.50
+std     2886.90
+min        1.00
+25%     2500.75
+50%     5000.50
+75%     7500.25
+max    10000.00
+> fill the skewed columns in people dataset 
+No missing values found in 'people_clean'.
+> when was the leads dataset created and how many records exists 
+Unknown command. Type 'help' to see available commands.
+> ^C
