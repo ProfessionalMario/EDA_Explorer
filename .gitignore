@@ -56,10 +56,23 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+csv_files/
+csv_files.zip
+data/datasets/
+vector_store/*.pkl
+output/
+logs/
 
 # Translations
 *.mo
 *.pot
+data/processed/
+data/datasets/
+data/metadata/
+*.csv
+*.parquet
+*.feather
+*.xlsx
 
 # Django stuff:
 *.log
