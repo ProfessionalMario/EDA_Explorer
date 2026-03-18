@@ -3,9 +3,14 @@ from cli_app.command_handler import handle_command
 from utils.logger import logger
 
 console = Console()
+from vector_store.instruction_embedder import embed_analyze_instructions
 
+# Ensure analyze instructions are embedded
+def init_vector_store():
+    return embed_analyze_instructions()
 
 def run_cli():
+    embed_analyze_instructions()  # Pre-embed instructions for analysis commands
 
     console.print("\n[bold cyan]EDA Explorer[/bold cyan]")
     console.print("Type 'exit' to quit\n")

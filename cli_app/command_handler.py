@@ -10,7 +10,8 @@ from agents.dataframe_agent import DataFrameAgent
 from agents.visualization_agent import VisualizationAgent
 from agents.transformer_agent import TransformerAgent
 from core.llm_planner import LLMPlanner
-
+from agents.analysis_agent import AnalysisAgent
+from data.registry import DatasetRegistry
 router = QueryRouter()
 llm_planner = LLMPlanner()
 console = Console()
@@ -19,6 +20,7 @@ metadata_agent = MetadataAgent(registry)
 dataframe_agent = DataFrameAgent(registry)
 visualization_agent = VisualizationAgent(registry)
 transformer_agent = TransformerAgent(registry)
+analysis_agent = AnalysisAgent(registry)
 
 METADATA_CONTEXT_WORDS = [
     "column", "columns", "numeric", "categorical", "missing", "fields", "field"
@@ -62,10 +64,21 @@ def _is_list_with_context(command):
     return any(word in q for word in METADATA_CONTEXT_WORDS)
 
 
+def extract_dataset(command, registry):
+    datasets = registry.list_datasets()
+    words = command.lower().split()
+
+    for word in words:
+        for d in datasets:
+            if word == d.lower():
+                return d
+    return None
+
+
 def handle_command(command):
 
     try:
-
+        
         parts = command.strip().split()
 
         if not parts:
@@ -91,6 +104,7 @@ def handle_command(command):
             if _is_list_with_context(command):
                 result = metadata_agent.handle(command)
                 console.print(result)
+                console.print(registry.list_datasets())
                 return ""
 
             datasets = registry.list_datasets()
@@ -106,7 +120,15 @@ def handle_command(command):
 
             console.print(table)
             return ""
+        
+        #── DELETE ──────────────────────────────────────────────────────────────
+        if "delete" in command:
+            dataset = extract_dataset(command, registry)
 
+            if not dataset:
+                return "Please specify dataset to delete (e.g., 'delete leads')"
+
+            return registry.delete_dataset(dataset)
         # ── INFO ──────────────────────────────────────────────────────────────
         if action == "info":
             if len(parts) < 2:
@@ -150,30 +172,51 @@ def handle_command(command):
         # ── EXIT ──────────────────────────────────────────────────────────────
         if action == "exit":
             return "exit"
-
+        
+        # ── Analyze ──────────────────────────────────────────────────────────────
+        if action in {"analyze", "analyse"}:  
+            return analysis_agent.handle(command)
+        
         # ── HELP ──────────────────────────────────────────────────────────────
         if action == "help":
             table = Table(title="EDA Explorer Commands")
+
             table.add_column("Command")
             table.add_column("Description")
 
-            table.add_row("load <file_path>", "Load dataset")
-            table.add_row("list", "List loaded datasets")
-            table.add_row("list columns in <dataset>", "List columns (routes to metadata agent)")
+            # ---------- DATASET ----------
+            table.add_row("load <file_path>", "Load dataset (auto converts to parquet)")
+            table.add_row("delete <dataset>", "Delete dataset (parquet + metadata)")
+            table.add_row("delete all", "Delete ALL datasets")
+            table.add_row("list", "List available datasets")
+
+            # ---------- METADATA ----------
             table.add_row("info <dataset>", "Show dataset metadata")
-            table.add_row("describe <dataset>", "Statistical summary")
             table.add_row("columns <dataset>", "Show column names")
             table.add_row("shape <dataset>", "Show dataset size")
+            table.add_row("list columns in <dataset>", "List columns (metadata agent)")
+
+            # ---------- DATA PREVIEW ----------
             table.add_row("head <dataset> [n]", "Preview first rows")
-            table.add_row("NL: show top 10 rows in leads", "DataFrameAgent row preview")
-            table.add_row("NL: how many rows in leads", "Row count")
-            table.add_row("NL: average annual_revenue in leads", "Column mean")
-            table.add_row("NL: histogram annual_revenue in leads", "Histogram")
-            table.add_row("NL: bar chart industry in leads", "Bar chart")
+            table.add_row("describe <dataset>", "Statistical summary")
+
+            # ---------- ANALYSIS ----------
+            table.add_row("analyze <dataset>", "Full EDA analysis (quality + warnings)")
+            table.add_row("missing <dataset>", "Show missing values")
+            table.add_row("duplicates <dataset>", "Show duplicate rows")
+            table.add_row("correlation <dataset>", "Correlation matrix")
+
+            # ---------- NATURAL LANGUAGE ----------
+            table.add_row("NL: show top 10 rows in <dataset>", "Row preview")
+            table.add_row("NL: how many rows in <dataset>", "Row count")
+            table.add_row("NL: average <column> in <dataset>", "Column mean")
+            table.add_row("NL: histogram <column> in <dataset>", "Histogram")
+            table.add_row("NL: bar chart <column> in <dataset>", "Bar chart")
+
+            # ---------- SYSTEM ----------
             table.add_row("exit", "Quit program")
 
             console.print(table)
-            return ""
 
         # ── COLUMNS ───────────────────────────────────────────────────────────
         if action == "columns":
@@ -225,7 +268,7 @@ def handle_command(command):
             console.print(df.head(n))
             return ""
 
-        # ── AGENT ROUTING ─────────────────────────────────────────────────────
+                # ── AGENT ROUTING ─────────────────────────────────────────────────────
         # LLM planner is tried first; falls back to rule-based router if the
         # key is missing or the LLM call fails.
 
@@ -243,21 +286,39 @@ def handle_command(command):
             "dataframe_agent":     dataframe_agent,
             "visualization_agent": visualization_agent,
             "transformer_agent":   transformer_agent,
+            "analysis_agent":      analysis_agent,
         }
 
         if agent_name in agent_map:
             agent = agent_map[agent_name]
-            # Pass the full plan to transformer_agent so it can dispatch
-            # directly to the exact operation instead of keyword-matching.
+
+            # ---- SPECIAL HANDLING ----
+
+            # Transformer agent uses full plan
             if agent_name == "transformer_agent" and plan:
                 result = agent.handle(command, plan=plan)
+
+            #  Analysis agent gets dataset directly
+            elif agent_name == "analysis_agent":
+                dataset = plan.get("dataset") if plan else None
+
+                # fallback if dataset missing
+                if not dataset:
+                    datasets = registry.list_datasets()
+                    if not datasets:
+                        return "No datasets available."
+                    dataset = datasets[0]
+
+                result = agent.handle(dataset)
+
+            # Default agents
             else:
                 result = agent.handle(command)
+
             console.print(result)
             return ""
 
         return "Unknown command. Type 'help' to see available commands."
-
     except Exception as e:
         logger.error(f"Command failed: {command} | {e}")
         return f"Error: {e}"

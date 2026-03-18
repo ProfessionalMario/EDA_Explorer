@@ -140,7 +140,11 @@ Result
 
 
 
-
+Current problems: 
+missing values, encoding, drop duplicates not working properly. 
+delete duplicates and encode, this doesn't work. 
+encode gender into numbers, country into cat, this doesn't work. 
+Visulization is not running in terminal. 
 
 
 

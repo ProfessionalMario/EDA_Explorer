@@ -88,6 +88,9 @@ class QueryRouter:
         if any(word in q for word in self.VISUAL_KEYWORDS):
             logger.info("Routing → visualization_agent")
             return "visualization_agent"
+        
+        if "analyze" in query or "analysis" in query or "analyse" in query:
+            return "analysis_agent"
 
         logger.warning(f"No route matched for query: {query}")
         return "unknown command"

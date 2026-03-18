@@ -6,7 +6,7 @@ from utils.logger import logger
 
 
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma3")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "hf.co/bartowski/gemma-2-2b-it-GGUF:Q5_K_M")
 
 
 class LLMPlanner:
@@ -26,6 +26,7 @@ class LLMPlanner:
         "dataframe_agent",
         "visualization_agent",
         "transformer_agent",
+        "analysis_agent",
     }
 
     VALID_OPERATIONS = {
@@ -44,6 +45,8 @@ class LLMPlanner:
         "fill_mean", "fill_median", "fill_mode", "fill_zero",
         # transformer — transforms
         "normalize", "standardize", "encode", "onehot", "rename",
+        # analysis
+        "analyze","analyse"
     }
 
     SYSTEM_PROMPT = """\

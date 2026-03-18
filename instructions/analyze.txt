@@ -1,0 +1,82 @@
+Instruction Set for Generic Dataset Analysis (Read-Only)
+
+1. "Loading dataset '{dataset_name}'..."
+   - Load dataset into memory
+   - Record total rows and columns
+   - Log: "Dataset loaded: {num_rows} rows, {num_columns} columns"
+
+2. "Computing data quality metrics..."
+   - Count total missing values per column and total in dataset
+   - Count total duplicate rows
+   - Log: "Total missing values: {total_missing}, Duplicate rows: {num_duplicates}"
+
+3. "Profiling feature types..."
+   - Identify numeric columns
+   - Identify categorical columns
+   - Compute unique values per categorical column
+   - Log: "Numeric columns: {numeric_columns}, Categorical columns: {categorical_columns}"
+
+4. "Checking basic statistics for numeric features..."
+   - Compute min, max, mean, std for each numeric column
+   - Log: "Numeric summary computed for {column}"
+
+5. "Checking categorical value distributions..."
+   - Compute top 5 categories and their counts for each categorical column
+   - Log: "Categorical summary computed for {column}"
+
+6. "Computing correlation matrix (numeric features only)..."
+   - Compute Pearson correlations between numeric columns
+   - Log: "Correlation matrix computed"
+
+7. "Preparing visualizations in terminal..."
+   - Generate histograms for numeric columns using plotext
+       - Log: "Histogram ready for {column}"
+   - Generate bar charts for categorical columns with cardinality <= 20
+       - Log: "Bar chart ready for {column}"
+   - High-cardinality columns are noted but skipped from plotting
+
+8. "Generating dataset summary (LLM)..."
+   - Summarize:
+       - Rows and columns
+       - Missing value overview
+       - Duplicates overview
+       - Key numeric/categorical insights
+       - Correlation highlights
+   - Log: "Summary generated"
+
+9. "Finalizing terminal dashboard..."
+   - Print structured dashboard like:
+
+      Dataset Analysis: {dataset_name}
+      --------------------------------
+      Rows: {num_rows}
+      Columns: {num_columns}
+
+      Data Quality
+      ------------
+      Total Missing Values : {total_missing}
+      Duplicate Rows       : {num_duplicates}
+
+      Missing by Column
+      -----------------
+      {column1} : {missing_pct1}%
+      {column2} : {missing_pct2}%
+
+      Feature Summary
+      ---------------
+      Numeric Columns      : {numeric_columns}
+      Categorical Columns  : {categorical_columns}
+
+      Correlations (Top pairs)
+      ------------------------
+      {col1} & {col2} : r={value}
+      {col3} & {col4} : r={value}
+
+      Visualizations Ready
+      -------------------
+      [Histograms: {numeric_columns}]
+      [Bar Charts: {categorical_columns <= 20}]
+      
+      LLM Summary
+      -----------
+      {text_summary}
