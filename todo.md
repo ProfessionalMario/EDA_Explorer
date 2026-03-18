@@ -151,3 +151,69 @@ Visulization is not running in terminal.
 ollama 
 git
 venv
+
+
+# EDA Explorer – AI-Powered Data Analysis CLI
+
+## ✅ Core Features
+- [x] Load dataset (CSV → Parquet)
+- [x] Dataset registry system
+- [x] Analyze command
+- [x] Missing value detection
+- [x] Duplicate detection
+- [x] Column type detection
+- [x] Warnings system
+
+## 📊 Analysis Features
+- [x] Correlation analysis
+- [x] Outlier detection (IQR)
+- [x] Feature importance (auto target detection)
+- [x] High-cardinality filtering
+- [x] ID column detection
+
+## 📈 Visualization
+- [x] Histogram
+- [x] Bar chart
+
+## 📁 Reporting
+- [x] Export analysis to .txt
+- [ ] Export to JSON (optional)
+- [ ] Export to HTML (optional)
+
+## 🧠 AI Layer (IMPORTANT)
+- [x] Auto target selection
+- [x] Feature importance explanation
+- [ ] RAG-based suggestions (missing values, outliers)
+
+## ⚡ Performance
+- [x] Parquet storage
+- [x] Large dataset handling (sampling)
+- [ ] Chunk processing (future)
+
+## 🛠️ System Design
+- [x] Command handler
+- [x] Registry system
+- [x] Modular agents (AnalysisAgent, etc.)
+- [x] Logger integration
+
+## 🎬 Demo Preparation
+- [ ] CLI demo recording
+- [ ] Feature walkthrough
+- [ ] Large dataset example
+
+## 📦 Datasets
+- [x] Titanic
+- [x] Customer Churn
+- [x] Credit Card Fraud
+- [ ] Add 1 more strong dataset
+
+## 🚀 Future Enhancements
+- [ ] RAG-based EDA advisor
+- [ ] SQL query generator
+- [ ] Model training pipeline
+- [ ] Web UI
+
+## 🧪 Testing
+- [ ] Test on small dataset
+- [ ] Test on large dataset
+- [ ] Edge cases (empty, high missing)

@@ -1,44 +1,46 @@
+# 🚀 EDA Explorer – AI-Powered Data Analysis CLI
 
-DataFrameAgent
+A lightweight command-line tool that performs **automated exploratory data analysis (EDA)** with intelligent insights, feature importance detection, and data quality checks.
 
-Purpose
-- Performs basic analytical operations on loaded pandas DataFrames.
+Built to simulate how an **AI Data Analyst** works on real-world datasets.
 
-Current Capabilities
-- Detect dataset name from query
-- Detect column name from query
-- Extract numeric values (for row limits)
-- Execute simple pandas statistical operations
+---
 
-Supported Operations
-- show top/first N rows
-- row count
-- mean / average of a column
-- max / highest value of a column
-- min / lowest value of a column
+## ⚡ Key Highlights
 
-Examples
-- show top 5 rows in products
-- how many rows in customers
-- average price in products
-- max price in products
-- min price in products
+- 🔍 **One-command analysis** → `analyze <dataset>`
+- 🧠 **Auto target detection** for ML-based insights
+- 📈 **Feature importance (no manual setup)**
+- ⚠️ **Smart data warnings** (missing, ID columns, constants)
+- 📊 **Correlation & outlier detection**
+- 📁 **Auto report generation (.txt)**
+- ⚡ **Handles large datasets efficiently (Parquet + sampling)**
 
-Limitations
-- rule-based parsing only
-- requires exact column names
-- limited natural language understanding
-- no sorting, filtering, or aggregations yet
-- no fuzzy matching or synonym handling
+---
 
-Future Improvements
-- LLM planner for query normalization
-- fuzzy column matching
-- advanced operations (sort, filter, groupby)
+## 🧠 What Makes It Stand Out
 
+- No manual preprocessing required  
+- Automatically identifies **useful vs useless features**  
+- Mimics real-world **data analyst workflow**  
+- Designed with **modular AI agents**  
 
+---
 
+## 🛠️ Tech Stack
 
+- Python  
+- Pandas, NumPy  
+- Scikit-learn  
+- Parquet (efficient storage)  
+
+---
+
+## ⚡ Quick Demo
+
+```bash
+load churn.csv
+analyze churn
 
 
 
