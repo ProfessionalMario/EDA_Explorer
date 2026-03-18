@@ -4,6 +4,11 @@ A lightweight command-line tool that performs **automated exploratory data analy
 
 Built to simulate how an **AI Data Analyst** works on real-world datasets.
 
+## Demo
+
+https://github.com/user-attachments/assets/7dff8329-71e8-4bca-ad01-404e75df8314
+
+
 ---
 
 ## ⚡ Key Highlights
@@ -18,14 +23,27 @@ Built to simulate how an **AI Data Analyst** works on real-world datasets.
 
 ---
 
-## 🧠 What Makes It Stand Out
+## ⚡ Performance
+-  Parquet storage
+-  Large dataset handling (sampling)
 
-- No manual preprocessing required  
-- Automatically identifies **useful vs useless features**  
-- Mimics real-world **data analyst workflow**  
-- Designed with **modular AI agents**  
+## 🛠️ System Design
+-  Command handler
+-  Registry system
+-  Modular agents (AnalysisAgent, etc.)
+-  Logger integration
 
----
+
+## 📦 Datasets
+-  Titanic
+-  Customer Churn
+-  Credit Card Fraud
+
+## 🚀 Future Enhancements
+-  RAG-based EDA advisor
+-  SQL query generator
+-  Model training pipeline
+
 
 ## 🛠️ Tech Stack
 
