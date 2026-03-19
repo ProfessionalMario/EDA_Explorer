@@ -153,7 +153,7 @@ class AnalysisAgent:
             if numeric_df.shape[1] < 2:
                 return None, "Not enough numeric columns for correlation."
 
-            corr = numeric_df.corr()
+            # corr = numeric_df.corr()
 
             # Get top correlations (excluding self)
             corr_matrix = numeric_df.corr().abs()
@@ -258,12 +258,7 @@ class AnalysisAgent:
             print("📊 Computing correlation...")
             corr_pairs, corr_error = self._compute_correlation(df)
 
-            # ---------- EXPORT (ONLY ONCE) ----------
-            report_path = self._export_report(dataset, "\n".join(output))
-
-            if report_path:
-                output.append(f"\n📁 Report saved to: {report_path}")
-            
+            output= []
 
             output.append(f"\nDataset Analysis: {dataset}")
             output.append("=" * 40)
@@ -278,6 +273,7 @@ class AnalysisAgent:
             # ---------- CORRELATION OUTPUT ----------
             output.append("\nTop Correlations")
             output.append("-" * 20)
+
 
             if corr_error:
                 output.append(corr_error)
@@ -319,6 +315,12 @@ class AnalysisAgent:
                 output.append("\n⚠️ Ignored high-cardinality columns:")
                 for col in dropped_cols:
                     output.append(f"- {col}")
+
+             # ---------- EXPORT (ONLY ONCE) ----------
+            report_path = self._export_report(dataset, "\n".join(output))
+
+            if report_path:
+                output.append(f"\n📁 Report saved to: {report_path}")
 
             return "\n".join(output)
 

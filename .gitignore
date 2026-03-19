@@ -66,10 +66,19 @@ logs/
 # Translations
 *.mo
 *.pot
-data/processed/
+# Raw CSVs
+csv_files/
+csv_files.zip
+
+# Processed datasets
 data/datasets/
-data/metadata/
-*.csv
+
+# Outputs & logs
+output/
+logs/
+
+# Embeddings / binaries
+vector_store/*.pkl
 *.parquet
 *.feather
 *.xlsx

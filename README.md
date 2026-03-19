@@ -1,29 +1,78 @@
 # 🚀 EDA Explorer – AI-Powered Data Analysis CLI
 
-A lightweight command-line tool that performs **automated exploratory data analysis (EDA)** with intelligent insights, feature importance detection, and data quality checks.
+A lightweight CLI tool that automates exploratory data analysis (EDA) with intelligent insights, feature importance detection, and data quality checks.
 
-Built to simulate how an **AI Data Analyst** works on real-world datasets.
+Designed to simulate how an **AI Data Analyst** works on real-world datasets.
 
 ---
 
 ## ⚡ Key Highlights
 
-- 🔍 **One-command analysis** → `analyze <dataset>`
-- 🧠 **Auto target detection** for ML-based insights
-- 📈 **Feature importance (no manual setup)**
-- ⚠️ **Smart data warnings** (missing, ID columns, constants)
-- 📊 **Correlation & outlier detection**
-- 📁 **Auto report generation (.txt)**
-- ⚡ **Handles large datasets efficiently (Parquet + sampling)**
+- 🔍 One-command analysis → `analyze <dataset>`
+- 🧠 Auto target detection for ML-based insights
+- 📈 Feature importance (no manual setup)
+- ⚠️ Smart data warnings (missing, ID columns, constants)
+- 📊 Correlation & outlier detection
+- 📁 Auto report generation (.txt)
+- ⚡ Efficient handling of large datasets (Parquet + sampling)
+
+---
+
+## 🎬 Demo
+
+👉 Full demo: https://github.com/your-repo/assets/your-video-id
+
+*(Add your GitHub uploaded video link here — this is critical)*
+
+---
+
+## 📊 Example Output
+Top Correlations
+age ↔ income: 0.72
+
+⚠️ Data Warnings
+
+customer_id looks like an ID column
+
+income has 52% missing values
+
+Potential Feature Importance
+age: 0.41 → strong predictive signal
+tenure: 0.32 → strong predictive signal
+
 
 ---
 
 ## 🧠 What Makes It Stand Out
 
-- No manual preprocessing required  
-- Automatically identifies **useful vs useless features**  
-- Mimics real-world **data analyst workflow**  
-- Designed with **modular AI agents**  
+- Automatically identifies **useful vs irrelevant features**
+- No manual preprocessing required
+- Mimics real-world **data analyst reasoning**
+- Built using a **modular agent-based system**
+
+---
+
+## ⚡ Performance
+
+- Parquet-based storage for faster I/O
+- Sampling strategy for large datasets
+
+---
+
+## 🛠️ System Design
+
+- Command handler
+- Dataset registry
+- Modular agents (AnalysisAgent, etc.)
+- Logger integration
+
+---
+
+## 📦 Datasets
+
+- Titanic
+- Customer Churn
+- Credit Card Fraud
 
 ---
 
@@ -32,20 +81,12 @@ Built to simulate how an **AI Data Analyst** works on real-world datasets.
 - Python  
 - Pandas, NumPy  
 - Scikit-learn  
-- Parquet (efficient storage)  
+- Parquet  
 
 ---
 
-## ⚡ Quick Demo
+## 🚀 Future Enhancements
 
-```bash
-load churn.csv
-analyze churn
-
-
-
-
-
-
-
-
+- RAG-based EDA advisor  
+- SQL query assistant  
+- Model training pipeline  
