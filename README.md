@@ -20,25 +20,25 @@ Designed to simulate how an **AI Data Analyst** works on real-world datasets.
 
 ## 🎬 Demo
 
-👉 Full demo: https://github.com/your-repo/assets/your-video-id
+👉 Full demo: https://github.com/user-attachments/assets/7dff8329-71e8-4bca-ad01-404e75df8314
 
-*(Add your GitHub uploaded video link here — this is critical)*
+https://github.com/user-attachments/assets/7dff8329-71e8-4bca-ad01-404e75df8314
 
 ---
 
 ## 📊 Example Output
-Top Correlations
-age ↔ income: 0.72
 
-⚠️ Data Warnings
+Top Correlations:
+- age ↔ income: 0.72
+- tenure ↔ balance: 0.65
 
-customer_id looks like an ID column
+⚠️ Data Warnings:
+- customer_id → likely ID column
+- income → 52% missing values
 
-income has 52% missing values
-
-Potential Feature Importance
-age: 0.41 → strong predictive signal
-tenure: 0.32 → strong predictive signal
+📈 Feature Importance:
+- age: 0.41 (strong signal)
+- tenure: 0.32 (strong signal)
 
 
 ---
