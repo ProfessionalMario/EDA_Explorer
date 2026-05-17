@@ -2,7 +2,7 @@
 
 A lightweight CLI tool that automates exploratory data analysis (EDA) with intelligent insights, feature importance detection, and data quality checks.
 
-Designed to simulate how an **AI Data Analyst** works on real-world datasets.
+Designed to simulate how an **AI Data Analyst** works on real-world datasets used in EDA. 
 
 ---
 
