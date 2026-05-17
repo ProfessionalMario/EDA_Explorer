@@ -41,3 +41,6 @@ def run_cli():
 
 if __name__ == "__main__":
     run_cli()
+    # import psutil, os
+    # p = psutil.Process()
+    # print(f"🚀 FINAL RAM BOOT USAGE: {p.memory_info().rss / 1024 / 1024:.2f} MB")

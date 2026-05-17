@@ -5,8 +5,8 @@ from pathlib import Path
 from utils.logger import logger
 
 
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "hf.co/bartowski/gemma-2-2b-it-GGUF:Q5_K_M")
+# OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+# OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "hf.co/bartowski/gemma-2-2b-it-GGUF:Q5_K_M")
 
 
 class LLMPlanner:
@@ -98,7 +98,7 @@ Rules:
 
     def __init__(self):
         self.enabled = True
-        logger.info(f"LLMPlanner ready | model={OLLAMA_MODEL} | base={OLLAMA_BASE_URL}")
+        # logger.info(f"LLMPlanner ready | model={OLLAMA_MODEL} | base={OLLAMA_BASE_URL}")
 
     # ── schema context ─────────────────────────────────────────────────────
 
@@ -197,24 +197,24 @@ Rules:
         # 1. Try Local Ollama First
         try:
             logger.info("Attempting local Ollama generation...")
-            response = requests.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "format": "json",
-                    "stream": False,
-                    "options": {
-                        "temperature": 0,
-                        "top_p": 0.9,
-                        "num_predict": 100,
-                        "stop": ["\n\n"],
-                    },
-                },
-                timeout=5, # Reduced timeout so fallback triggers rapidly if offline
-            )
-            response.raise_for_status()
-            return response.json().get("response", "").strip()
+            # response = requests.post(
+            #     f"{OLLAMA_BASE_URL}/api/generate",
+            #     json={
+            #         "model": OLLAMA_MODEL,
+            #         "prompt": prompt,
+            #         "format": "json",
+            #         "stream": False,
+            #         "options": {
+            #             "temperature": 0,
+            #             "top_p": 0.9,
+            #             "num_predict": 100,
+            #             "stop": ["\n\n"],
+            #         },
+            #     },
+            #     timeout=5, # Reduced timeout so fallback triggers rapidly if offline
+            # )
+            # response.raise_for_status()
+            # return response.json().get("response", "").strip()
 
         except Exception as local_err:
             logger.warning(f"Local Ollama unavailable ({local_err}). Routing fallback to Hugging Face...")
