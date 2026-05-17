@@ -144,15 +144,55 @@ Rules:
 
     # ── ollama call ────────────────────────────────────────────────────────
 
-    def _call_ollama(self, user_query, schema_context=""):
-        """POST to local Ollama API and return the raw response string."""
-        try:
-            schema_block = (
-                f"\n\nSchema context (use exact column names from here):\n{schema_context}"
-                if schema_context else ""
-            )
-            prompt = f"{self.SYSTEM_PROMPT}{schema_block}\n\nUser Query: {user_query}\n\nJSON:"
+    # def _call_ollama(self, user_query, schema_context=""):
+    #     """POST to local Ollama API and return the raw response string."""
+    #     try:
+    #         schema_block = (
+    #             f"\n\nSchema context (use exact column names from here):\n{schema_context}"
+    #             if schema_context else ""
+    #         )
+    #         prompt = f"{self.SYSTEM_PROMPT}{schema_block}\n\nUser Query: {user_query}\n\nJSON:"
 
+    #         response = requests.post(
+    #             f"{OLLAMA_BASE_URL}/api/generate",
+    #             json={
+    #                 "model": OLLAMA_MODEL,
+    #                 "prompt": prompt,
+    #                 "format": "json",
+    #                 "stream": False,
+    #                 "options": {
+    #                     "temperature": 0,
+    #                     "top_p": 0.9,
+    #                     "num_predict": 100,
+    #                     "stop": ["\n\n"],
+    #                 },
+    #             },
+    #             timeout=30,
+    #         )
+    #         response.raise_for_status()
+    #         return response.json().get("response", "").strip()
+
+    #     except Exception as e:
+    #         logger.error(f"Ollama call failed | {e}")
+    #         return None
+
+
+    # ── ollama call with huggingface fallback ────────────────────────────────
+
+    def _call_ollama(self, user_query, schema_context=""):
+        """
+        POST to local Ollama API. Falls back to Hugging Face Serverless API 
+        if local service is unavailable, missing, or times out.
+        """
+        schema_block = (
+            f"\n\nSchema context (use exact column names from here):\n{schema_context}"
+            if schema_context else ""
+        )
+        prompt = f"{self.SYSTEM_PROMPT}{schema_block}\n\nUser Query: {user_query}\n\nJSON:"
+
+        # 1. Try Local Ollama First
+        try:
+            logger.info("Attempting local Ollama generation...")
             response = requests.post(
                 f"{OLLAMA_BASE_URL}/api/generate",
                 json={
@@ -167,14 +207,53 @@ Rules:
                         "stop": ["\n\n"],
                     },
                 },
-                timeout=30,
+                timeout=5, # Reduced timeout so fallback triggers rapidly if offline
             )
             response.raise_for_status()
             return response.json().get("response", "").strip()
 
-        except Exception as e:
-            logger.error(f"Ollama call failed | {e}")
-            return None
+        except Exception as local_err:
+            logger.warning(f"Local Ollama unavailable ({local_err}). Routing fallback to Hugging Face...")
+            
+            # 2. Hugging Face Serverless Fallback
+            hf_token = os.environ.get("HF_TOKEN")
+            if not hf_token:
+                logger.error("Hugging Face fallback skipped: HF_TOKEN environment variable not set.")
+                return None
+                
+            try:
+                # We use HF's serverless OpenAI-compatible Router endpoint
+                hf_url = "https://router.huggingface.co/v1/chat/completions"
+                
+                headers = {
+                    "Authorization": f"Bearer {hf_token}",
+                    "Content-Type": "application/json"
+                }
+                
+                # Format to structure for standard OpenAI/HF chat endpoint specs
+                hf_payload = {
+                    "model": "google/gemma-3-12b-it", # Fallback leverages beefier cloud model
+                    "messages": [
+                        {"role": "user", "content": prompt}
+                    ],
+                    "temperature": 0,
+                    "max_tokens": 100,
+                    "response_format": {"type": "json_object"} # Forces strict JSON format out of HF
+                }
+                
+                hf_response = requests.post(hf_url, headers=headers, json=hf_payload, timeout=15)
+                hf_response.raise_for_status()
+                
+                # Extract text out of OpenAI spec completion block
+                result_json = hf_response.json()
+                content = result_json['choices'][0]['message']['content'].strip()
+                
+                logger.info("Successfully fetched plan from Hugging Face.")
+                return content
+                
+            except Exception as hf_err:
+                logger.error(f"Hugging Face fallback also failed | {hf_err}")
+                return None
 
     # ── public API ─────────────────────────────────────────────────────────
 
