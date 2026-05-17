@@ -184,6 +184,10 @@ Rules:
         POST to local Ollama API. Falls back to Hugging Face Serverless API 
         if local service is unavailable, missing, or times out.
         """
+        # Add this environment check at the top of your function
+        if os.environ.get("ENVIRONMENT") == "production":
+            logger.info("Production mode: Skipping local Ollama check. Routing directly to Hugging Face...")
+            # Jump straight to your Hugging Face API request logic here!
         schema_block = (
             f"\n\nSchema context (use exact column names from here):\n{schema_context}"
             if schema_context else ""
