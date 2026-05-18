@@ -59,7 +59,7 @@ cover/
 csv_files/
 csv_files.zip
 data/datasets/
-vector_store/*.pkl
+# vector_store/*.pkl
 output/
 logs/
 
@@ -78,7 +78,7 @@ output/
 logs/
 
 # Embeddings / binaries
-vector_store/*.pkl
+# vector_store/*.pkl
 *.parquet
 *.feather
 *.xlsx
