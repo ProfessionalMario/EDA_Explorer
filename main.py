@@ -1,6 +1,27 @@
 from rich.console import Console
 from cli_app.command_handler import handle_command
 from utils.logger import logger
+import os
+import sys
+from fastapi import FastAPI
+import uvicorn
+
+
+def run_web():
+    """A tiny web wrapper so Render stays happy."""
+    app = FastAPI()
+
+    @app.get("/")
+    def health_check():
+        return {"status": "EDA Explorer is running"}
+
+    @app.get("/cmd")
+    def api_handle(command: str):
+        # This calls your existing logic exactly like the CLI would
+        return {"output": handle_command(command)}
+
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
 
 console = Console()
 from vector_store.instruction_embedder import embed_analyze_instructions
@@ -40,7 +61,9 @@ def run_cli():
 
 
 if __name__ == "__main__":
-    run_cli()
-    # import psutil, os
-    # p = psutil.Process()
-    # print(f"🚀 FINAL RAM BOOT USAGE: {p.memory_info().rss / 1024 / 1024:.2f} MB")
+    if "PORT" in os.environ:
+        run_web()
+    else:
+        # Otherwise, run your normal CLI behavior
+        run_cli()
+    # run_cli()
